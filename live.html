@@ -1,1 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
 
+<meta charset="UTF-8">
+<title>Live Cricket Match</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="liveTag">LIVE</div>
+
+<div class="scoreBoard">
+
+<div class="teams">
+
+<div class="team">
+<h2 id="teamA">Team A</h2>
+</div>
+
+<div class="score">
+<h1 id="score">0/0</h1>
+<p id="overs">0.0 overs</p>
+</div>
+
+<div class="team">
+<h2 id="teamB">Team B</h2>
+</div>
+
+</div>
+
+</div>
+
+<div class="batsmen">
+
+<h3>Batting</h3>
+
+<table>
+
+<thead>
+<tr>
+<th>Batsman</th>
+<th>R</th>
+<th>B</th>
+<th>4s</th>
+<th>6s</th>
+<th>SR</th>
+</tr>
+</thead>
+
+<tbody id="battingScorecard"></tbody>
+
+</table>
+
+</div>
+
+<div class="bowler">
+
+<h3>Bowler</h3>
+
+<div id="bowlerCard"></div>
+
+</div>
+
+<div class="partnership">
+
+<h3>Partnership</h3>
+<div id="partnershipRuns">0 runs</div>
+
+</div>
+
+<div id="animation"></div>
+
+<script type="module" src="js/uiRenderer.js"></script>
+
+</body>
+</html>
