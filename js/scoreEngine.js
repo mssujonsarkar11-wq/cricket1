@@ -17,6 +17,8 @@ innings:1,
 
 target:0,
 
+winner:"",
+
 anim:"",
 
 overBalls:[],
@@ -70,6 +72,8 @@ match.bowler.name=newBowler
 
 function score(r){
 
+if(match.winner) return
+
 match.anim=""
 
 match.runs+=r
@@ -90,11 +94,15 @@ if(r==1 || r==3){
 switchStrike()
 }
 
+checkWin()
+
 save()
 
 }
 
 function wicket(){
+
+if(match.winner) return
 
 match.wickets++
 
@@ -120,29 +128,26 @@ save()
 
 }
 
-function setTeams(){
+function checkWin(){
 
-match.teamA=document.getElementById("teamAname").value
-match.teamB=document.getElementById("teamBname").value
+if(match.innings==2){
 
-save()
+if(match.runs >= match.target){
 
-}
-
-function setBatters(){
-
-match.batsmen[0].name=document.getElementById("bat1name").value
-match.batsmen[1].name=document.getElementById("bat2name").value
-
-save()
+match.winner = match.teamB
 
 }
 
-function changeBowler(){
+let ballsPlayed = (match.overs*6)+match.balls
+let ballsTotal = match.totalOvers*6
 
-match.bowler.name=document.getElementById("bowlerName").value
+if(ballsPlayed>=ballsTotal && match.runs < match.target){
 
-save()
+match.winner = match.teamA
+
+}
+
+}
 
 }
 
@@ -171,11 +176,40 @@ match.balls=0
 
 match.overBalls=[]
 
-}else{
+match.batsmen=[
+{name:"Batter1",runs:0,balls:0},
+{name:"Batter2",runs:0,balls:0}
+]
 
-alert("Match Finished")
+match.bowler={name:"Bowler"}
 
 }
+
+save()
+
+}
+
+function setTeams(){
+
+match.teamA=document.getElementById("teamAname").value
+match.teamB=document.getElementById("teamBname").value
+
+save()
+
+}
+
+function setBatters(){
+
+match.batsmen[0].name=document.getElementById("bat1name").value
+match.batsmen[1].name=document.getElementById("bat2name").value
+
+save()
+
+}
+
+function changeBowler(){
+
+match.bowler.name=document.getElementById("bowlerName").value
 
 save()
 
