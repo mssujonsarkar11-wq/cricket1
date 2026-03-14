@@ -32,6 +32,8 @@ updateRates(m)
 
 showAnimation(m)
 
+showWinner(m)
+
 })
 
 function renderBatsmen(m){
@@ -120,6 +122,20 @@ box.classList.add("show")
 setTimeout(()=>{
 box.classList.remove("show")
 },1500)
+
+}
+
+}
+
+function showWinner(m){
+
+if(m.winner){
+
+let box=document.getElementById("anim")
+
+box.innerText = "WINNER: " + m.winner
+
+box.classList.add("show")
 
 }
 
