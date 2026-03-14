@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 <head>
 
@@ -6,39 +7,6 @@
 <title>Live Match</title>
 
 <link rel="stylesheet" href="css/style.css">
-
-<style>
-
-.videoBox{
-position:relative;
-width:100%;
-max-width:900px;
-margin:auto;
-}
-
-video{
-width:100%;
-border-radius:10px;
-}
-
-.scoreOverlay{
-
-position:absolute;
-bottom:0;
-left:0;
-right:0;
-
-background:rgba(0,0,0,0.8);
-padding:15px;
-
-}
-
-#score{
-font-size:36px;
-font-weight:bold;
-}
-
-</style>
 
 </head>
 
@@ -48,10 +16,10 @@ font-weight:bold;
 
 <video id="camera" autoplay muted></video>
 
-<div class="scoreOverlay">
+<div class="overlay">
 
-<div id="score">0/0</div>
-<div id="overs">0.0</div>
+<h1 id="score">0/0</h1>
+<div id="overs">0.0 overs</div>
 
 <div id="batsmen"></div>
 
@@ -59,53 +27,28 @@ font-weight:bold;
 
 </div>
 
+<h2>Batting Scorecard</h2>
+
+<table>
+
+<thead>
+<tr>
+<th>Batter</th>
+<th>R</th>
+<th>B</th>
+<th>4s</th>
+<th>6s</th>
+<th>SR</th>
+</tr>
+</thead>
+
+<tbody id="battingTable"></tbody>
+
+</table>
+
 <div id="animation"></div>
 
-<script type="module">
-
-import { db, ref, onValue } from "./js/firebase.js"
-
-const video = document.getElementById("camera")
-
-navigator.mediaDevices.getUserMedia({video:true,audio:true})
-.then(stream=>{
-video.srcObject = stream
-})
-
-onValue(ref(db,"match"),snap=>{
-
-const m = snap.val()
-
-document.getElementById("score").innerText =
-m.runs + "/" + m.wickets
-
-document.getElementById("overs").innerText =
-m.overs + "." + m.balls
-
-renderBatters(m)
-
-})
-
-function renderBatters(m){
-
-const box = document.getElementById("batsmen")
-
-box.innerHTML = ""
-
-m.batsmen.forEach((p,i)=>{
-
-let star = ""
-
-if(i==m.striker) star="*"
-
-box.innerHTML +=
-p.name + star + " " + p.runs + "(" + p.balls + ")<br>"
-
-})
-
-}
-
-</script>
+<script type="module" src="js/ui.js"></script>
 
 </body>
 </html>
