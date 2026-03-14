@@ -22,7 +22,7 @@ winner:"",
 anim:"",
 
 customText:"",
-textSize:70,
+textSize:80,
 
 overBalls:[],
 
@@ -46,9 +46,9 @@ set(ref(db,"match"),match)
 
 function swap(){
 
-let t = match.striker
-match.striker = match.nonStriker
-match.nonStriker = t
+let t=match.striker
+match.striker=match.nonStriker
+match.nonStriker=t
 
 }
 
@@ -65,7 +65,7 @@ swap()
 
 match.overBalls=[]
 
-let newBowler = prompt("New Bowler")
+let newBowler=prompt("New Bowler")
 
 if(newBowler){
 match.bowler.name=newBowler
@@ -83,7 +83,7 @@ match.anim=""
 
 match.runs+=r
 
-let bat = match.batsmen[match.striker]
+let bat=match.batsmen[match.striker]
 
 bat.runs+=r
 bat.balls++
@@ -115,14 +115,16 @@ match.overBalls.push("W")
 
 legalBall()
 
-let newBat = prompt("New Batter")
+let newBat=prompt("New Batter")
 
 if(newBat){
 
 match.batsmen[match.striker]={
+
 name:newBat,
 runs:0,
 balls:0
+
 }
 
 }
@@ -144,6 +146,7 @@ match.winner=match.teamB
 }
 
 let ballsPlayed=(match.overs*6)+match.balls
+
 let totalBalls=match.totalOvers*6
 
 if(ballsPlayed>=totalBalls && match.runs<match.target){
@@ -176,59 +179,13 @@ match.innings=2
 
 match.runs=0
 match.wickets=0
+
 match.overs=0
 match.balls=0
 
 match.overBalls=[]
 
-match.batsmen=[
-{name:"Batter1",runs:0,balls:0},
-{name:"Batter2",runs:0,balls:0}
-]
-
-match.bowler={name:"Bowler"}
-
 }
-
-save()
-
-}
-
-function showCustom(){
-
-match.customText=document.getElementById("customText").value
-
-match.textSize=parseInt(
-document.getElementById("textSize").value
-)
-
-save()
-
-}
-
-function clearCustom(){
-
-match.customText=""
-
-save()
-
-}
-
-function endMatch(){
-
-match.runs=0
-match.wickets=0
-match.overs=0
-match.balls=0
-
-match.target=0
-match.innings=1
-
-match.winner=""
-
-match.overBalls=[]
-
-match.customText=""
 
 save()
 
@@ -238,6 +195,3 @@ window.score=score
 window.wicket=wicket
 window.startMatch=startMatch
 window.endInnings=endInnings
-window.showCustom=showCustom
-window.clearCustom=clearCustom
-window.endMatch=endMatch
