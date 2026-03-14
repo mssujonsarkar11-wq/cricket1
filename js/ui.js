@@ -1,19 +1,5 @@
 import { db, ref, onValue } from "./firebase.js"
 
-const video=document.getElementById("camera")
-
-navigator.mediaDevices.getUserMedia({
-
-video:true,
-audio:true
-
-})
-.then(stream=>{
-
-video.srcObject=stream
-
-})
-
 onValue(ref(db,"match"),snap=>{
 
 let m=snap.val()
@@ -21,7 +7,10 @@ let m=snap.val()
 if(!m) return
 
 document.getElementById("score").innerText=
-m.runs+"/"+m.wickets
+m.runs+"-"+m.wickets
+
+document.getElementById("overs").innerText=
+"("+m.overs+"."+m.balls+")"
 
 document.getElementById("bat1").innerText=
 m.batsmen[0].name+" "+m.batsmen[0].runs+"("+m.batsmen[0].balls+")"
@@ -38,7 +27,7 @@ renderBalls(m)
 
 function renderBalls(m){
 
-let box=document.getElementById("lastBalls")
+let box=document.getElementById("balls")
 
 box.innerHTML=""
 
