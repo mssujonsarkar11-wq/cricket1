@@ -12,40 +12,59 @@
 
 <body>
 
-<div class="video-container">
+<div class="video-box">
 
 <video id="camera" autoplay muted></video>
 
-<div class="score-strip">
+<div class="scorebar">
 
-<div class="team">
+<div class="teams">
 
 <span id="teamA">TEAM A</span>
 
-<span class="score" id="score">0/0</span>
+<span class="vs">v</span>
+
+<span id="teamB">TEAM B</span>
+
+<span class="score" id="score">120-3</span>
+
+<span class="overs" id="overs">(12.4)</span>
 
 </div>
 
-<div class="batsmen">
+<div class="batters">
 
-<div id="bat1">Batter 1 0(0)</div>
-<div id="bat2">Batter 2 0(0)</div>
+<div class="batter striker">
+
+<span class="arrow">▶</span>
+
+<span id="bat1">Rahim 32 (21)</span>
+
+</div>
+
+<div class="batter">
+
+<span id="bat2">Tamim 15 (10)</span>
+
+</div>
 
 </div>
 
 <div class="bowler">
 
-<div id="bowler">Bowler 0-0</div>
+<span id="bowler">Shakib 2-15</span>
 
-<div class="balls" id="lastBalls"></div>
+<div class="overballs" id="balls">
+
+<span>1</span> <span>4</span> <span>0</span> <span>1</span>
+
+</div>
 
 </div>
 
 </div>
 
 </div>
-
-<div id="animation"></div>
 
 <script type="module" src="js/ui.js"></script>
 
