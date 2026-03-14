@@ -12,21 +12,33 @@
 
 <body>
 
-<h2>Admin Scoring Panel</h2>
+<h2>Smart Scoring Panel</h2>
+
+<h3>Select Extra (optional)</h3>
+
+<select id="extraType">
+
+<option value="">None</option>
+<option value="wd">Wide</option>
+<option value="nb">No Ball</option>
+<option value="bye">Bye</option>
+<option value="lb">Leg Bye</option>
+
+</select>
+
+<h3>Runs</h3>
 
 <div class="buttons">
 
-<button onclick="run(1)">+1</button> <button onclick="run(2)">+2</button> <button onclick="run(3)">+3</button> <button onclick="run(4)">FOUR</button> <button onclick="run(6)">SIX</button>
+<button onclick="score(0)">0</button> <button onclick="score(1)">1</button> <button onclick="score(2)">2</button> <button onclick="score(3)">3</button> <button onclick="score(4)">4</button> <button onclick="score(6)">6</button>
 
-<button onclick="dot()">DOT</button> <button onclick="wicket()">WICKET</button>
-
-<button onclick="wide()">Wide</button> <button onclick="wideRun()">Wide+Run</button>
-
-<button onclick="noball()">No Ball</button>
-
-<button onclick="runOut()">Run Out</button>
+<button onclick="wicket()">Wicket</button>
 
 </div>
+
+<br>
+
+<button onclick="undo()">Undo Last Ball</button>
 
 <h3>Teams</h3>
 
@@ -44,7 +56,7 @@
 
 <h3>Bowler</h3>
 
-<input id="bowlerName" placeholder="Bowler Name">
+<input id="bowlerName">
 
 <button onclick="changeBowler()">Change Bowler</button>
 
