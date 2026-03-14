@@ -14,9 +14,9 @@ balls:0,
 striker:0,
 nonStriker:1,
 
-lastBalls:[],
-
 anim:"",
+
+lastBalls:[],
 
 batsmen:[
 {name:"Batter1",runs:0,balls:0},
@@ -28,9 +28,7 @@ bowler:{name:"Bowler"}
 }
 
 function save(){
-
 set(ref(db,"match"),match)
-
 }
 
 function rotate(){
@@ -54,9 +52,7 @@ rotate()
 let newBowler=prompt("New Bowler Name")
 
 if(newBowler){
-
 match.bowler.name=newBowler
-
 }
 
 }
@@ -114,11 +110,9 @@ let newBat=prompt("New Batter Name")
 if(newBat){
 
 match.batsmen[match.striker]={
-
 name:newBat,
 runs:0,
 balls:0
-
 }
 
 }
@@ -139,7 +133,7 @@ save()
 
 function wideRun(){
 
-let r=parseInt(prompt("Runs taken after wide"))
+let r=parseInt(prompt("Runs after wide"))
 
 match.runs+=1+r
 
@@ -176,14 +170,38 @@ let newBat=prompt("New Batter Name")
 if(newBat){
 
 match.batsmen[match.striker]={
-
 name:newBat,
 runs:0,
 balls:0
-
 }
 
 }
+
+save()
+
+}
+
+function setTeams(){
+
+match.teamA=document.getElementById("teamAname").value
+match.teamB=document.getElementById("teamBname").value
+
+save()
+
+}
+
+function setBatters(){
+
+match.batsmen[0].name=document.getElementById("bat1name").value
+match.batsmen[1].name=document.getElementById("bat2name").value
+
+save()
+
+}
+
+function changeBowler(){
+
+match.bowler.name=document.getElementById("bowlerName").value
 
 save()
 
@@ -196,3 +214,6 @@ window.wide=wide
 window.wideRun=wideRun
 window.noball=noball
 window.runOut=runOut
+window.setTeams=setTeams
+window.setBatters=setBatters
+window.changeBowler=changeBowler
