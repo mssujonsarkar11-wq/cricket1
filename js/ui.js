@@ -1,5 +1,19 @@
 import { db, ref, onValue } from "./firebase.js"
 
+const video=document.getElementById("camera")
+
+navigator.mediaDevices.getUserMedia({
+
+video:true,
+audio:true
+
+})
+.then(stream=>{
+
+video.srcObject=stream
+
+})
+
 onValue(ref(db,"match"),snap=>{
 
 let m=snap.val()
