@@ -32,9 +32,7 @@ document.getElementById("bowler").innerText=m.bowler.name
 
 renderBalls(m)
 
-if(m.anim){
-showAnim(m.anim)
-}
+if(m.anim) showAnim(m.anim)
 
 })
 
@@ -45,7 +43,9 @@ let box=document.getElementById("balls")
 box.innerHTML=""
 
 m.lastBalls.forEach(b=>{
+
 box.innerHTML+=`<span>${b}</span>`
+
 })
 
 }
@@ -60,6 +60,6 @@ box.classList.add("show")
 
 setTimeout(()=>{
 box.classList.remove("show")
-},1500)
+},1200)
 
 }
