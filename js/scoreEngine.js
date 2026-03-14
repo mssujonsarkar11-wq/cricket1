@@ -19,25 +19,30 @@ target:0,
 
 anim:"",
 
-lastBalls:[],
+overBalls:[],
 
-currentOverRuns:0,
+striker:0,
+nonStriker:1,
 
 batsmen:[
 {name:"Batter1",runs:0,balls:0},
 {name:"Batter2",runs:0,balls:0}
 ],
 
-bowler:{
-name:"Bowler",
-runs:0,
-overs:0
-}
+bowler:{name:"Bowler"}
 
 }
 
 function save(){
 set(ref(db,"match"),match)
+}
+
+function switchStrike(){
+
+let t = match.striker
+match.striker = match.nonStriker
+match.nonStriker = t
+
 }
 
 function legalBall(){
@@ -49,20 +54,14 @@ if(match.balls==6){
 match.overs++
 match.balls=0
 
-match.bowler.overs++
+switchStrike()
 
-match.currentOverRuns=0
+match.overBalls=[]
 
 let newBowler = prompt("New Bowler Name")
 
 if(newBowler){
-
-match.bowler={
-name:newBowler,
-runs:0,
-overs:0
-}
-
+match.bowler.name=newBowler
 }
 
 }
@@ -75,21 +74,21 @@ match.anim=""
 
 match.runs+=r
 
-match.currentOverRuns+=r
-
-match.bowler.runs+=r
-
-let bat=match.batsmen[0]
+let bat = match.batsmen[match.striker]
 
 bat.runs+=r
 bat.balls++
 
+match.overBalls.push(r)
+
 if(r==4) match.anim="FOUR"
 if(r==6) match.anim="SIX"
 
-match.lastBalls.push(r)
-
 legalBall()
+
+if(r==1 || r==3){
+switchStrike()
+}
 
 save()
 
@@ -101,7 +100,7 @@ match.wickets++
 
 match.anim="WICKET"
 
-match.lastBalls.push("W")
+match.overBalls.push("W")
 
 legalBall()
 
@@ -109,7 +108,7 @@ let newBat = prompt("New Batter Name")
 
 if(newBat){
 
-match.batsmen[0]={
+match.batsmen[match.striker]={
 name:newBat,
 runs:0,
 balls:0
@@ -143,11 +142,6 @@ function changeBowler(){
 
 match.bowler.name=document.getElementById("bowlerName").value
 
-match.bowler.runs=0
-match.bowler.overs=0
-
-match.currentOverRuns=0
-
 save()
 
 }
@@ -175,7 +169,7 @@ match.wickets=0
 match.overs=0
 match.balls=0
 
-match.lastBalls=[]
+match.overBalls=[]
 
 }else{
 
