@@ -2,65 +2,20 @@
 
 <html>
 <head>
-
 <meta charset="UTF-8">
-<title>Admin Panel</title>
-
+<title>Cricket Match Center</title>
 <link rel="stylesheet" href="css/style.css">
-
 </head>
 
 <body>
 
-<h2>Smart Scoring Panel</h2>
+<h1 class="title">🏏 Cricket Match Center</h1>
 
-<h3>Select Extra (optional)</h3>
+<div class="menu">
 
-<select id="extraType">
-
-<option value="">None</option>
-<option value="wd">Wide</option>
-<option value="nb">No Ball</option>
-<option value="bye">Bye</option>
-<option value="lb">Leg Bye</option>
-
-</select>
-
-<h3>Runs</h3>
-
-<div class="buttons">
-
-<button onclick="score(0)">0</button> <button onclick="score(1)">1</button> <button onclick="score(2)">2</button> <button onclick="score(3)">3</button> <button onclick="score(4)">4</button> <button onclick="score(6)">6</button>
-
-<button onclick="wicket()">Wicket</button>
+<a href="live.html">📡 Live Match</a> <a href="admin.html">🎮 Admin Panel</a>
 
 </div>
-
-<br>
-
-<button onclick="undo()">Undo Last Ball</button>
-
-<h3>Teams</h3>
-
-<input id="teamAname" placeholder="Team A">
-<input id="teamBname" placeholder="Team B">
-
-<button onclick="setTeams()">Update Teams</button>
-
-<h3>Batsmen</h3>
-
-<input id="bat1name" placeholder="Batter 1">
-<input id="bat2name" placeholder="Batter 2">
-
-<button onclick="setBatters()">Set Batters</button>
-
-<h3>Bowler</h3>
-
-<input id="bowlerName">
-
-<button onclick="changeBowler()">Change Bowler</button>
-
-<script type="module" src="js/scoreEngine.js"></script>
 
 </body>
 </html>
