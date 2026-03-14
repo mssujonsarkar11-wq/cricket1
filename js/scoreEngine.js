@@ -1,157 +1,200 @@
-import { db, ref, onValue } from "./firebase.js"
+import { db, ref, set } from "./firebase.js"
 
-const video=document.getElementById("camera")
+let match = {
 
-navigator.mediaDevices.getUserMedia({video:true})
-.then(stream=>{
-video.srcObject=stream
-})
+teamA:"TEAM A",
+teamB:"TEAM B",
 
-onValue(ref(db,"match"),snap=>{
+runs:0,
+wickets:0,
 
-let m=snap.val()
+overs:0,
+balls:0,
 
-if(!m) return
+totalOvers:0,
 
-if(m.summary){
+innings:1,
 
-showSummary(m)
-return
+target:0,
 
-}
+winner:"",
 
-document.getElementById("teamA").innerText=m.teamA
-document.getElementById("teamB").innerText=m.teamB
+anim:"",
 
-document.getElementById("score").innerText=
-m.runs+"-"+m.wickets
+summary:false,
 
-document.getElementById("overs").innerText=
-"("+m.overs+"."+m.balls+")"
+overBalls:[],
 
-renderBatsmen(m)
+striker:0,
+nonStriker:1,
 
-document.getElementById("bowler").innerText=m.bowler.name
+batsmen:[
+{name:"Batter1",runs:0,balls:0},
+{name:"Batter2",runs:0,balls:0}
+],
 
-renderBalls(m)
-
-updateRates(m)
-
-showAnimation(m)
-
-})
-
-function renderBatsmen(m){
-
-let left=m.batsmen[m.striker]
-let right=m.batsmen[m.nonStriker]
-
-document.getElementById("bat1").innerText=
-left.name+" "+left.runs+"("+left.balls+")"
-
-document.getElementById("bat2").innerText=
-right.name+" "+right.runs+"("+right.balls+")"
+bowler:{name:"Bowler"}
 
 }
 
-function renderBalls(m){
+function save(){
+set(ref(db,"match"),match)
+}
 
-let box=document.getElementById("balls")
+function swap(){
 
-box.innerHTML=""
-
-m.overBalls.forEach(b=>{
-
-box.innerHTML+=`<span>${b}</span>`
-
-})
+let temp=match.striker
+match.striker=match.nonStriker
+match.nonStriker=temp
 
 }
 
-function updateRates(m){
+function legalBall(){
 
-let rrBox=document.getElementById("rr")
-let reqBox=document.getElementById("req")
+match.balls++
 
-let ballsPlayed=(m.overs*6)+m.balls
+if(match.balls==6){
 
-if(m.innings==1){
+match.overs++
+match.balls=0
 
-reqBox.innerText=""
+swap()
 
-if(ballsPlayed>0){
+match.overBalls=[]
 
-let rr=(m.runs/(ballsPlayed/6)).toFixed(2)
+let newBowler=prompt("New Bowler")
 
-rrBox.innerText="RR "+rr
-
-}
-
-}
-
-if(m.innings==2){
-
-rrBox.innerText=""
-
-let ballsLeft=(m.totalOvers*6)-ballsPlayed
-
-let runsNeeded=m.target-m.runs
-
-if(runsNeeded<0) runsNeeded=0
-
-if(ballsLeft>0){
-
-let rrr=(runsNeeded/(ballsLeft/6)).toFixed(2)
-
-reqBox.innerText=
-"Need "+runsNeeded+" from "+ballsLeft+" balls | RRR "+rrr
-
+if(newBowler){
+match.bowler.name=newBowler
 }
 
 }
 
 }
 
-function showAnimation(m){
+function score(r){
 
-if(!m.anim) return
+if(match.winner) return
 
-let box=document.getElementById("anim")
+match.anim=""
 
-box.innerText=m.anim
+match.runs+=r
 
-box.classList.add("show")
+let bat=match.batsmen[match.striker]
 
-setTimeout(()=>{
-box.classList.remove("show")
-},1200)
+bat.runs+=r
+bat.balls++
+
+match.overBalls.push(r)
+
+if(r==4) match.anim="FOUR"
+if(r==6) match.anim="SIX"
+
+legalBall()
+
+if(r==1 || r==3) swap()
+
+checkWin()
+
+save()
+
+}
+
+function wicket(){
+
+if(match.winner) return
+
+match.wickets++
+
+match.anim="WICKET"
+
+match.overBalls.push("W")
+
+legalBall()
+
+let newBat=prompt("New Batter")
+
+if(newBat){
+
+match.batsmen[match.striker]={
+name:newBat,
+runs:0,
+balls:0
+}
 
 }
 
-function showSummary(m){
+checkWin()
 
-let box=document.getElementById("scoreArea")
-
-box.innerHTML=
-
-`
-<div class="summaryCard">
-
-<h2>MATCH SUMMARY</h2>
-
-<h3>${m.teamA}</h3>
-
-Score: ${m.target-1}
-
-<br>
-
-<h3>${m.teamB}</h3>
-
-Score: ${m.runs}
-
-<h2>${m.winner} WON</h2>
-
-</div>
-`
+save()
 
 }
+
+function checkWin(){
+
+if(match.innings==2){
+
+if(match.runs>=match.target){
+
+match.winner=match.teamB
+match.summary=true
+
+}
+
+let ballsPlayed=(match.overs*6)+match.balls
+let totalBalls=match.totalOvers*6
+
+if(ballsPlayed>=totalBalls && match.runs<match.target){
+
+match.winner=match.teamA
+match.summary=true
+
+}
+
+}
+
+}
+
+function startMatch(){
+
+match.totalOvers=parseInt(
+document.getElementById("totalOvers").value
+)
+
+save()
+
+}
+
+function endInnings(){
+
+if(match.innings==1){
+
+match.target=match.runs+1
+
+match.innings=2
+
+match.runs=0
+match.wickets=0
+
+match.overs=0
+match.balls=0
+
+match.overBalls=[]
+
+match.batsmen=[
+{name:"Batter1",runs:0,balls:0},
+{name:"Batter2",runs:0,balls:0}
+]
+
+match.bowler={name:"Bowler"}
+
+}
+
+save()
+
+}
+
+window.score=score
+window.wicket=wicket
+window.startMatch=startMatch
+window.endInnings=endInnings
