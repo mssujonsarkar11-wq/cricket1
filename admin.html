@@ -2,12 +2,9 @@
 
 <html>
 <head>
-
 <meta charset="UTF-8">
 <title>Admin Panel</title>
-
 <link rel="stylesheet" href="css/style.css">
-
 </head>
 
 <body>
@@ -28,19 +25,22 @@
 
 <h3>Teams</h3>
 
-<input id="teamAname" placeholder="Team A">
-<input id="teamBname" placeholder="Team B">
+<input id="teamAname" placeholder="Team A Name">
+<input id="teamBname" placeholder="Team B Name">
 
 <button onclick="setTeams()">Update Teams</button>
 
-<h3>Change Batter</h3>
+<h3>Batsmen</h3>
 
-<input id="batterName">
-<button onclick="changeBatter()">Change Batter</button>
+<input id="bat1name" placeholder="Batter 1">
+<input id="bat2name" placeholder="Batter 2">
 
-<h3>Change Bowler</h3>
+<button onclick="setBatters()">Set Batters</button>
 
-<input id="bowlerName">
+<h3>Bowler</h3>
+
+<input id="bowlerName" placeholder="Bowler Name">
+
 <button onclick="changeBowler()">Change Bowler</button>
 
 <script type="module" src="js/scoreEngine.js"></script>
