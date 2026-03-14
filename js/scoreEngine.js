@@ -1,10 +1,6 @@
 import { db, ref, set } from "./firebase.js"
 
-let history=[]
-
-function newMatch(){
-
-return {
+let match={
 
 teamA:"TEAM A",
 teamB:"TEAM B",
@@ -21,17 +17,10 @@ innings:1,
 
 target:0,
 
-winner:"",
+topBat:"",
+topBowl:"",
 
-customText:"",
-textSize:60,
-
-anim:"",
-
-striker:0,
-nonStriker:1,
-
-lastBalls:[],
+summary:false,
 
 batsmen:[
 {name:"Batter1",runs:0,balls:0},
@@ -42,22 +31,46 @@ bowler:{name:"Bowler"}
 
 }
 
-}
-
-let match=newMatch()
-
 function save(){
-
 set(ref(db,"match"),match)
-
 }
 
-function endMatch(){
+function endInnings(){
 
-match=newMatch()
+if(match.innings==1){
+
+match.target=match.runs+1
+
+match.innings=2
+
+match.runs=0
+match.wickets=0
+match.overs=0
+match.balls=0
+
+}else{
+
+createSummary()
+
+}
 
 save()
 
 }
 
-window.endMatch=endMatch
+function createSummary(){
+
+let topBat=match.batsmen[0]
+
+if(match.batsmen[1].runs>topBat.runs)
+topBat=match.batsmen[1]
+
+match.topBat=topBat.name+" "+topBat.runs
+
+match.topBowl=match.bowler.name
+
+match.summary=true
+
+}
+
+window.endInnings=endInnings
