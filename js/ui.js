@@ -30,17 +30,13 @@ m.batsmen[1].name+" "+m.batsmen[1].runs+"("+m.batsmen[1].balls+")"
 
 document.getElementById("bowler").innerText=m.bowler.name
 
-updateRates(m)
+updateRR(m)
 
-if(m.summary){
-
-showSummary(m)
-
-}
+renderBalls(m)
 
 })
 
-function updateRates(m){
+function updateRR(m){
 
 let balls=(m.overs*6+m.balls)
 
@@ -48,8 +44,7 @@ if(balls>0){
 
 let rr=(m.runs/(balls/6)).toFixed(2)
 
-document.getElementById("rr").innerText=
-"RR: "+rr
+document.getElementById("rr").innerText="RR "+rr
 
 }
 
@@ -62,28 +57,23 @@ let runsNeed=m.target-m.runs
 let rrr=(runsNeed/(ballsLeft/6)).toFixed(2)
 
 document.getElementById("req").innerText=
+
 "Need "+runsNeed+" from "+ballsLeft+" balls | RRR "+rrr
 
 }
 
 }
 
-function showSummary(m){
+function renderBalls(m){
 
-let box=document.getElementById("summary")
+let box=document.getElementById("balls")
 
-box.innerHTML=
+box.innerHTML=""
 
-`
+m.lastBalls.forEach(b=>{
 
-<h2>MATCH SUMMARY</h2>
+box.innerHTML+=`<span>${b}</span>`
 
-<h3>${m.teamA}</h3>
-
-Top Batter: ${m.topBat}
-
-Top Bowler: ${m.topBowl}
-
-`
+})
 
 }
