@@ -22,14 +22,9 @@ m.runs+"-"+m.wickets
 document.getElementById("overs").innerText=
 "("+m.overs+"."+m.balls+")"
 
-document.getElementById("bat1").innerText=
-m.batsmen[0].name+" "+m.batsmen[0].runs+"("+m.batsmen[0].balls+")"
+renderBatsmen(m)
 
-document.getElementById("bat2").innerText=
-m.batsmen[1].name+" "+m.batsmen[1].runs+"("+m.batsmen[1].balls+")"
-
-document.getElementById("bowler").innerText=
-m.bowler.name+" | "+m.currentOverRuns+" runs this over"
+document.getElementById("bowler").innerText=m.bowler.name
 
 renderBalls(m)
 
@@ -39,13 +34,29 @@ showAnimation(m)
 
 })
 
+function renderBatsmen(m){
+
+let bat1=m.batsmen[0]
+let bat2=m.batsmen[1]
+
+let star1 = m.striker==0 ? "⭐ " : ""
+let star2 = m.striker==1 ? "⭐ " : ""
+
+document.getElementById("bat1").innerText =
+star1 + bat1.name+" "+bat1.runs+"("+bat1.balls+")"
+
+document.getElementById("bat2").innerText =
+star2 + bat2.name+" "+bat2.runs+"("+bat2.balls+")"
+
+}
+
 function renderBalls(m){
 
 let box=document.getElementById("balls")
 
 box.innerHTML=""
 
-m.lastBalls.forEach(b=>{
+m.overBalls.forEach(b=>{
 
 box.innerHTML+=`<span>${b}</span>`
 
@@ -89,7 +100,6 @@ if(ballsLeft>0){
 let rrr=(runsNeeded/(ballsLeft/6)).toFixed(2)
 
 reqBox.innerText=
-
 "Need "+runsNeeded+
 " runs from "+ballsLeft+
 " balls | RRR "+rrr
@@ -111,9 +121,7 @@ box.innerText=m.anim
 box.classList.add("show")
 
 setTimeout(()=>{
-
 box.classList.remove("show")
-
 },1500)
 
 }
