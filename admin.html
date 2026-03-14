@@ -4,7 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
-<title>Cricket Match Center</title>
+<title>Admin Panel</title>
 
 <link rel="stylesheet" href="css/style.css">
 
@@ -12,13 +12,38 @@
 
 <body>
 
-<h1 class="title">🏏 Cricket Match Center</h1>
+<h2>Admin Scoring Panel</h2>
 
-<div class="menu">
+<div class="buttons">
 
-<a href="live.html">📡 Live Match</a> <a href="admin.html">🎮 Admin Panel</a>
+<button onclick="run(1)">+1</button> <button onclick="run(2)">+2</button> <button onclick="run(3)">+3</button> <button onclick="run(4)">4</button> <button onclick="run(6)">6</button>
+
+<button onclick="dot()">Dot</button> <button onclick="wicket()">Wicket</button>
+
+<button onclick="wide()">Wide</button> <button onclick="noball()">No Ball</button>
+
+<button onclick="runW()">Run + W</button>
 
 </div>
+
+<h3>Teams</h3>
+
+<input id="teamAname" placeholder="Team A">
+<input id="teamBname" placeholder="Team B">
+
+<button onclick="setTeams()">Update Teams</button>
+
+<h3>Change Batter</h3>
+
+<input id="batterName">
+<button onclick="changeBatter()">Change Batter</button>
+
+<h3>Change Bowler</h3>
+
+<input id="bowlerName">
+<button onclick="changeBowler()">Change Bowler</button>
+
+<script type="module" src="js/scoreEngine.js"></script>
 
 </body>
 </html>
