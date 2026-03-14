@@ -13,12 +13,18 @@ wickets:0,
 overs:0,
 balls:0,
 
+totalOvers:0,
+
+innings:1,
+
+target:0,
+
+anim:"",
+
 striker:0,
 nonStriker:1,
 
 lastBalls:[],
-
-anim:"",
 
 batsmen:[
 {name:"Batter1",runs:0,balls:0},
@@ -30,17 +36,13 @@ bowler:{name:"Bowler"}
 }
 
 function save(){
-
 set(ref(db,"match"),match)
-
 }
 
 function rotate(){
-
 let t=match.striker
 match.striker=match.nonStriker
 match.nonStriker=t
-
 }
 
 function legalBall(){
@@ -51,15 +53,12 @@ if(match.balls==6){
 
 match.overs++
 match.balls=0
-
 rotate()
 
 let newBowler=prompt("New Bowler Name")
 
 if(newBowler){
-
 match.bowler.name=newBowler
-
 }
 
 }
@@ -70,58 +69,28 @@ function score(r){
 
 history.push(JSON.stringify(match))
 
-let extra=document.getElementById("extraType").value
+match.anim=""
+
+let extra=document.getElementById("extraType")?.value || ""
 
 let bat=match.batsmen[match.striker]
 
 if(extra=="wd"){
-
 match.runs+=1+r
 match.lastBalls.push("Wd+"+r)
-
 save()
 return
-
 }
 
 if(extra=="nb"){
-
 match.runs+=1+r
-match.lastBalls.push("Nb+"+r)
-
 if(r>0) bat.runs+=r
-
+match.lastBalls.push("Nb+"+r)
 save()
 return
-
-}
-
-if(extra=="bye"){
-
-match.runs+=r
-match.lastBalls.push("B"+r)
-
-legalBall()
-
-save()
-return
-
-}
-
-if(extra=="lb"){
-
-match.runs+=r
-match.lastBalls.push("Lb"+r)
-
-legalBall()
-
-save()
-return
-
 }
 
 match.runs+=r
-
 bat.runs+=r
 bat.balls++
 
@@ -133,6 +102,8 @@ match.lastBalls.push(r)
 legalBall()
 
 if(r%2==1) rotate()
+
+checkWin()
 
 save()
 
@@ -155,11 +126,9 @@ let newBat=prompt("New Batter Name")
 if(newBat){
 
 match.batsmen[match.striker]={
-
 name:newBat,
 runs:0,
 balls:0
-
 }
 
 }
@@ -169,12 +138,57 @@ save()
 }
 
 function undo(){
-
 if(history.length==0) return
-
 match=JSON.parse(history.pop())
+save()
+}
+
+function startMatch(){
+
+match.totalOvers=parseInt(
+document.getElementById("totalOvers").value
+)
 
 save()
+
+}
+
+function endInnings(){
+
+if(match.innings==1){
+
+match.target=match.runs+1
+
+match.runs=0
+match.wickets=0
+match.overs=0
+match.balls=0
+
+match.innings=2
+
+match.lastBalls=[]
+
+alert("Target: "+match.target)
+
+}else{
+
+alert("Match Finished")
+
+}
+
+save()
+
+}
+
+function checkWin(){
+
+if(match.innings==2 && match.runs>=match.target){
+
+match.anim="WIN "+match.teamB
+
+alert("Congratulations "+match.teamB)
+
+}
 
 }
 
@@ -207,6 +221,8 @@ save()
 window.score=score
 window.wicket=wicket
 window.undo=undo
+window.startMatch=startMatch
+window.endInnings=endInnings
 window.setTeams=setTeams
 window.setBatters=setBatters
 window.changeBowler=changeBowler
