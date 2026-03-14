@@ -13,6 +13,13 @@ let m=snap.val()
 
 if(!m) return
 
+if(m.summary){
+
+showSummary(m)
+return
+
+}
+
 document.getElementById("teamA").innerText=m.teamA
 document.getElementById("teamB").innerText=m.teamB
 
@@ -32,20 +39,18 @@ updateRates(m)
 
 showAnimation(m)
 
-showWinner(m)
-
 })
 
 function renderBatsmen(m){
 
-let leftBatter = m.batsmen[m.striker]
-let rightBatter = m.batsmen[m.nonStriker]
+let left=m.batsmen[m.striker]
+let right=m.batsmen[m.nonStriker]
 
-document.getElementById("bat1").innerText =
-leftBatter.name+" "+leftBatter.runs+"("+leftBatter.balls+")"
+document.getElementById("bat1").innerText=
+left.name+" "+left.runs+"("+left.balls+")"
 
-document.getElementById("bat2").innerText =
-rightBatter.name+" "+rightBatter.runs+"("+rightBatter.balls+")"
+document.getElementById("bat2").innerText=
+right.name+" "+right.runs+"("+right.balls+")"
 
 }
 
@@ -78,7 +83,7 @@ if(ballsPlayed>0){
 
 let rr=(m.runs/(ballsPlayed/6)).toFixed(2)
 
-rrBox.innerText="RR: "+rr
+rrBox.innerText="RR "+rr
 
 }
 
@@ -99,9 +104,7 @@ if(ballsLeft>0){
 let rrr=(runsNeeded/(ballsLeft/6)).toFixed(2)
 
 reqBox.innerText=
-"Need "+runsNeeded+
-" runs from "+ballsLeft+
-" balls | RRR "+rrr
+"Need "+runsNeeded+" from "+ballsLeft+" balls | RRR "+rrr
 
 }
 
@@ -111,9 +114,9 @@ reqBox.innerText=
 
 function showAnimation(m){
 
-let box=document.getElementById("anim")
+if(!m.anim) return
 
-if(m.anim){
+let box=document.getElementById("anim")
 
 box.innerText=m.anim
 
@@ -121,22 +124,34 @@ box.classList.add("show")
 
 setTimeout(()=>{
 box.classList.remove("show")
-},1500)
+},1200)
 
 }
 
-}
+function showSummary(m){
 
-function showWinner(m){
+let box=document.getElementById("scoreArea")
 
-if(m.winner){
+box.innerHTML=
 
-let box=document.getElementById("anim")
+`
+<div class="summaryCard">
 
-box.innerText = "WINNER: " + m.winner
+<h2>MATCH SUMMARY</h2>
 
-box.classList.add("show")
+<h3>${m.teamA}</h3>
 
-}
+Score: ${m.target-1}
+
+<br>
+
+<h3>${m.teamB}</h3>
+
+Score: ${m.runs}
+
+<h2>${m.winner} WON</h2>
+
+</div>
+`
 
 }
