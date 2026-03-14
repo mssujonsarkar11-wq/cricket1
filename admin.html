@@ -2,9 +2,12 @@
 
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>Admin Panel</title>
+
 <link rel="stylesheet" href="css/style.css">
+
 </head>
 
 <body>
@@ -13,20 +16,22 @@
 
 <div class="buttons">
 
-<button onclick="run(1)">+1</button> <button onclick="run(2)">+2</button> <button onclick="run(3)">+3</button> <button onclick="run(4)">4</button> <button onclick="run(6)">6</button>
+<button onclick="run(1)">+1</button> <button onclick="run(2)">+2</button> <button onclick="run(3)">+3</button> <button onclick="run(4)">FOUR</button> <button onclick="run(6)">SIX</button>
 
-<button onclick="dot()">Dot</button> <button onclick="wicket()">Wicket</button>
+<button onclick="dot()">DOT</button> <button onclick="wicket()">WICKET</button>
 
-<button onclick="wide()">Wide</button> <button onclick="noball()">No Ball</button>
+<button onclick="wide()">Wide</button> <button onclick="wideRun()">Wide+Run</button>
 
-<button onclick="runW()">Run + W</button>
+<button onclick="noball()">No Ball</button>
+
+<button onclick="runOut()">Run Out</button>
 
 </div>
 
 <h3>Teams</h3>
 
-<input id="teamAname" placeholder="Team A Name">
-<input id="teamBname" placeholder="Team B Name">
+<input id="teamAname" placeholder="Team A">
+<input id="teamBname" placeholder="Team B">
 
 <button onclick="setTeams()">Update Teams</button>
 
