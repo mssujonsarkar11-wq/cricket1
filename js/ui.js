@@ -22,6 +22,13 @@ m.runs+"-"+m.wickets
 document.getElementById("overs").innerText=
 "("+m.overs+"."+m.balls+")"
 
+if(m.target){
+
+document.getElementById("target").innerText=
+"Target: "+m.target
+
+}
+
 document.getElementById("bat1").innerText=
 m.batsmen[0].name+" "+m.batsmen[0].runs+"("+m.batsmen[0].balls+")"
 
@@ -32,7 +39,9 @@ document.getElementById("bowler").innerText=m.bowler.name
 
 renderBalls(m)
 
-if(m.anim) showAnim(m.anim)
+if(m.anim && (m.anim=="FOUR"||m.anim=="SIX"||m.anim=="WICKET")){
+showAnim(m.anim)
+}
 
 })
 
@@ -43,9 +52,7 @@ let box=document.getElementById("balls")
 box.innerHTML=""
 
 m.lastBalls.forEach(b=>{
-
 box.innerHTML+=`<span>${b}</span>`
-
 })
 
 }
@@ -60,6 +67,6 @@ box.classList.add("show")
 
 setTimeout(()=>{
 box.classList.remove("show")
-},1200)
+},1500)
 
 }
