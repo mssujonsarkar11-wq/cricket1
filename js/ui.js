@@ -1,64 +1,82 @@
 import { db, ref, onValue } from "./firebase.js"
 
-const video=document.getElementById("camera")
+const video = document.getElementById("camera")
 
 navigator.mediaDevices.getUserMedia({video:true})
 .then(stream=>{
-video.srcObject=stream
+video.srcObject = stream
 })
 
-onValue(ref(db,"match"),snap=>{
+onValue(ref(db,"match"), snap => {
 
-let m=snap.val()
+let m = snap.val()
 
 if(!m) return
 
-document.getElementById("teamA").innerText=m.teamA
-document.getElementById("teamB").innerText=m.teamB
+document.getElementById("teamA").innerText = m.teamA
+document.getElementById("teamB").innerText = m.teamB
 
-document.getElementById("score").innerText=
-m.runs+"-"+m.wickets
+document.getElementById("score").innerText =
+m.runs + "-" + m.wickets
 
-document.getElementById("overs").innerText=
-"("+m.overs+"."+m.balls+")"
+document.getElementById("overs").innerText =
+"(" + m.overs + "." + m.balls + ")"
 
-document.getElementById("bat1").innerText=
-m.batsmen[0].name+" "+m.batsmen[0].runs+"("+m.batsmen[0].balls+")"
+document.getElementById("bat1").innerText =
+m.batsmen[0].name + " " + m.batsmen[0].runs + "(" + m.batsmen[0].balls + ")"
 
-document.getElementById("bat2").innerText=
-m.batsmen[1].name+" "+m.batsmen[1].runs+"("+m.batsmen[1].balls+")"
+document.getElementById("bat2").innerText =
+m.batsmen[1].name + " " + m.batsmen[1].runs + "(" + m.batsmen[1].balls + ")"
 
-document.getElementById("bowler").innerText=m.bowler.name
+document.getElementById("bowler").innerText = m.bowler.name
 
-updateRR(m)
+updateRates(m)
 
 renderBalls(m)
 
 })
 
-function updateRR(m){
+function updateRates(m){
 
-let balls=(m.overs*6+m.balls)
+let rrBox = document.getElementById("rr")
+let reqBox = document.getElementById("req")
 
-if(balls>0){
+let ballsPlayed = (m.overs * 6) + m.balls
 
-let rr=(m.runs/(balls/6)).toFixed(2)
+if(m.innings == 1){
 
-document.getElementById("rr").innerText="RR "+rr
+reqBox.innerText = ""
+
+if(ballsPlayed > 0){
+
+let rr = (m.runs / (ballsPlayed/6)).toFixed(2)
+
+rrBox.innerText = "RR: " + rr
 
 }
 
-if(m.innings==2){
+}
 
-let ballsLeft=(m.totalOvers*6)-balls
+if(m.innings == 2){
 
-let runsNeed=m.target-m.runs
+rrBox.innerText = ""
 
-let rrr=(runsNeed/(ballsLeft/6)).toFixed(2)
+let ballsLeft = (m.totalOvers * 6) - ballsPlayed
 
-document.getElementById("req").innerText=
+let runsNeeded = m.target - m.runs
 
-"Need "+runsNeed+" from "+ballsLeft+" balls | RRR "+rrr
+if(runsNeeded < 0) runsNeeded = 0
+
+if(ballsLeft > 0){
+
+let rrr = (runsNeeded / (ballsLeft/6)).toFixed(2)
+
+reqBox.innerText =
+"Need " + runsNeeded +
+" runs from " + ballsLeft +
+" balls | RRR " + rrr
+
+}
 
 }
 
@@ -66,13 +84,13 @@ document.getElementById("req").innerText=
 
 function renderBalls(m){
 
-let box=document.getElementById("balls")
+let box = document.getElementById("balls")
 
-box.innerHTML=""
+box.innerHTML = ""
 
-m.lastBalls.forEach(b=>{
+m.lastBalls.forEach(b => {
 
-box.innerHTML+=`<span>${b}</span>`
+box.innerHTML += `<span>${b}</span>`
 
 })
 
