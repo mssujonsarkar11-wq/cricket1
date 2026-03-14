@@ -1,5 +1,4 @@
 import { db, ref, set } from "./firebase.js"
-import { showAnimation } from "./animation.js"
 
 let match={
 
@@ -14,23 +13,18 @@ nonStriker:1,
 lastBalls:[],
 
 batsmen:[
-{name:"Batter 1",runs:0,balls:0,fours:0,sixes:0},
-{name:"Batter 2",runs:0,balls:0,fours:0,sixes:0}
+{name:"Batter 1",runs:0,balls:0},
+{name:"Batter 2",runs:0,balls:0}
 ],
 
 bowler:{
-name:"Bowler",
-runs:0,
-balls:0,
-wickets:0
+name:"Bowler"
 }
 
 }
 
 function save(){
-
 set(ref(db,"match"),match)
-
 }
 
 function rotate(){
@@ -49,16 +43,6 @@ let bat=match.batsmen[match.striker]
 
 bat.runs+=r
 bat.balls++
-
-if(r==4){
-bat.fours++
-showAnimation("FOUR","#00eaff")
-}
-
-if(r==6){
-bat.sixes++
-showAnimation("SIX","#ffcc00")
-}
 
 match.balls++
 
@@ -84,7 +68,10 @@ save()
 function dot(){
 
 match.balls++
-match.lastBalls.push("•")
+
+match.batsmen[match.striker].balls++
+
+match.lastBalls.push(0)
 
 save()
 
@@ -93,9 +80,8 @@ save()
 function wicket(){
 
 match.wickets++
-match.lastBalls.push("W")
 
-showAnimation("WICKET","red")
+match.lastBalls.push("W")
 
 save()
 
@@ -109,9 +95,7 @@ match.batsmen[match.striker]={
 
 name:name,
 runs:0,
-balls:0,
-fours:0,
-sixes:0
+balls:0
 
 }
 
