@@ -13,6 +13,32 @@ let m=snap.val()
 
 if(!m) return
 
+if(m.customText){
+
+document.getElementById("scoreArea").style.display="none"
+
+let box=document.getElementById("customContainer")
+
+box.innerHTML=
+`<div style="font-size:${m.textSize}px">${m.customText}</div>`
+
+return
+
+}else{
+
+document.getElementById("scoreArea").style.display="block"
+
+document.getElementById("customContainer").innerHTML=""
+
+}
+
+if(m.winner){
+
+document.getElementById("winBox").innerText=
+"🎉 Congratulations\n"+m.winner
+
+}
+
 document.getElementById("teamA").innerText=m.teamA
 document.getElementById("teamB").innerText=m.teamB
 
@@ -37,36 +63,4 @@ m.batsmen[1].name+" "+m.batsmen[1].runs+"("+m.batsmen[1].balls+")"
 
 document.getElementById("bowler").innerText=m.bowler.name
 
-renderBalls(m)
-
-if(m.anim && (m.anim=="FOUR"||m.anim=="SIX"||m.anim=="WICKET")){
-showAnim(m.anim)
-}
-
 })
-
-function renderBalls(m){
-
-let box=document.getElementById("balls")
-
-box.innerHTML=""
-
-m.lastBalls.forEach(b=>{
-box.innerHTML+=`<span>${b}</span>`
-})
-
-}
-
-function showAnim(text){
-
-let box=document.getElementById("anim")
-
-box.innerText=text
-
-box.classList.add("show")
-
-setTimeout(()=>{
-box.classList.remove("show")
-},1500)
-
-}
