@@ -12,39 +12,38 @@
 
 <body>
 
-<div class="videoBox">
+<div class="video-container">
 
 <video id="camera" autoplay muted></video>
 
-<div class="overlay">
+<div class="score-strip">
 
-<h1 id="score">0/0</h1>
-<div id="overs">0.0 overs</div>
+<div class="team">
 
-<div id="batsmen"></div>
+<span id="teamA">TEAM A</span>
+
+<span class="score" id="score">0/0</span>
+
+</div>
+
+<div class="batsmen">
+
+<div id="bat1">Batter 1 0(0)</div>
+<div id="bat2">Batter 2 0(0)</div>
+
+</div>
+
+<div class="bowler">
+
+<div id="bowler">Bowler 0-0</div>
+
+<div class="balls" id="lastBalls"></div>
 
 </div>
 
 </div>
 
-<h2>Batting Scorecard</h2>
-
-<table>
-
-<thead>
-<tr>
-<th>Batter</th>
-<th>R</th>
-<th>B</th>
-<th>4s</th>
-<th>6s</th>
-<th>SR</th>
-</tr>
-</thead>
-
-<tbody id="battingTable"></tbody>
-
-</table>
+</div>
 
 <div id="animation"></div>
 
