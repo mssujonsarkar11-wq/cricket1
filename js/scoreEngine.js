@@ -17,29 +17,27 @@ innings:1,
 
 target:0,
 
+anim:"",
+
+lastBalls:[],
+
+currentOverRuns:0,
+
 batsmen:[
 {name:"Batter1",runs:0,balls:0},
 {name:"Batter2",runs:0,balls:0}
 ],
 
-bowler:{name:"Bowler"},
-
-lastBalls:[]
+bowler:{
+name:"Bowler",
+runs:0,
+overs:0
+}
 
 }
 
 function save(){
-
 set(ref(db,"match"),match)
-
-}
-
-function rotate(){
-
-let t=match.striker
-match.striker=match.nonStriker
-match.nonStriker=t
-
 }
 
 function legalBall(){
@@ -51,10 +49,20 @@ if(match.balls==6){
 match.overs++
 match.balls=0
 
-let newBowler=prompt("New Bowler Name")
+match.bowler.overs++
+
+match.currentOverRuns=0
+
+let newBowler = prompt("New Bowler Name")
 
 if(newBowler){
-match.bowler.name=newBowler
+
+match.bowler={
+name:newBowler,
+runs:0,
+overs:0
+}
+
 }
 
 }
@@ -63,12 +71,21 @@ match.bowler.name=newBowler
 
 function score(r){
 
+match.anim=""
+
 match.runs+=r
+
+match.currentOverRuns+=r
+
+match.bowler.runs+=r
 
 let bat=match.batsmen[0]
 
 bat.runs+=r
 bat.balls++
+
+if(r==4) match.anim="FOUR"
+if(r==6) match.anim="SIX"
 
 match.lastBalls.push(r)
 
@@ -82,11 +99,13 @@ function wicket(){
 
 match.wickets++
 
+match.anim="WICKET"
+
 match.lastBalls.push("W")
 
 legalBall()
 
-let newBat=prompt("New Batter Name")
+let newBat = prompt("New Batter Name")
 
 if(newBat){
 
@@ -123,6 +142,11 @@ save()
 function changeBowler(){
 
 match.bowler.name=document.getElementById("bowlerName").value
+
+match.bowler.runs=0
+match.bowler.overs=0
+
+match.currentOverRuns=0
 
 save()
 
