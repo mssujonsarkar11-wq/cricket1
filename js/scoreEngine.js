@@ -47,7 +47,9 @@ bowler:{name:"Bowler"}
 let match=newMatch()
 
 function save(){
+
 set(ref(db,"match"),match)
+
 }
 
 function endMatch(){
