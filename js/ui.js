@@ -1,50 +1,50 @@
 import { db, ref, onValue } from "./firebase.js"
 
-const video = document.getElementById("camera")
+const video=document.getElementById("camera")
 
-navigator.mediaDevices.getUserMedia({video:true,audio:true})
+navigator.mediaDevices.getUserMedia({
+
+video:true,
+audio:true
+
+})
 .then(stream=>{
-video.srcObject = stream
+
+video.srcObject=stream
+
 })
 
 onValue(ref(db,"match"),snap=>{
 
-let m = snap.val()
+let m=snap.val()
 
-document.getElementById("score").innerText =
-m.runs + "/" + m.wickets
+if(!m) return
 
-document.getElementById("overs").innerText =
-m.overs + "." + m.balls
+document.getElementById("score").innerText=
+m.runs+"/"+m.wickets
 
-render(m)
+document.getElementById("bat1").innerText=
+m.batsmen[0].name+" "+m.batsmen[0].runs+"("+m.batsmen[0].balls+")"
+
+document.getElementById("bat2").innerText=
+m.batsmen[1].name+" "+m.batsmen[1].runs+"("+m.batsmen[1].balls+")"
+
+document.getElementById("bowler").innerText=
+m.bowler.name
+
+renderBalls(m)
 
 })
 
-function render(m){
+function renderBalls(m){
 
-let box = document.getElementById("battingTable")
+let box=document.getElementById("lastBalls")
 
 box.innerHTML=""
 
-m.batsmen.forEach(p=>{
+m.lastBalls.forEach(b=>{
 
-let sr = (p.runs/p.balls*100 || 0).toFixed(1)
-
-box.innerHTML += `
-
-<tr>
-
-<td>${p.name}</td>
-<td>${p.runs}</td>
-<td>${p.balls}</td>
-<td>${p.fours}</td>
-<td>${p.sixes}</td>
-<td>${sr}</td>
-
-</tr>
-
-`
+box.innerHTML+=`<span>${b}</span>`
 
 })
 
