@@ -3,78 +3,109 @@
 <head>
 
 <meta charset="UTF-8">
-<title>Live Cricket Match</title>
+<title>Live Match</title>
 
 <link rel="stylesheet" href="css/style.css">
+
+<style>
+
+.videoBox{
+position:relative;
+width:100%;
+max-width:900px;
+margin:auto;
+}
+
+video{
+width:100%;
+border-radius:10px;
+}
+
+.scoreOverlay{
+
+position:absolute;
+bottom:0;
+left:0;
+right:0;
+
+background:rgba(0,0,0,0.8);
+padding:15px;
+
+}
+
+#score{
+font-size:36px;
+font-weight:bold;
+}
+
+</style>
 
 </head>
 
 <body>
 
-<div class="liveTag">LIVE</div>
+<div class="videoBox">
 
-<div class="scoreBoard">
+<video id="camera" autoplay muted></video>
 
-<div class="teams">
+<div class="scoreOverlay">
 
-<div class="team">
-<h2 id="teamA">Team A</h2>
-</div>
+<div id="score">0/0</div>
+<div id="overs">0.0</div>
 
-<div class="score">
-<h1 id="score">0/0</h1>
-<p id="overs">0.0 overs</p>
-</div>
-
-<div class="team">
-<h2 id="teamB">Team B</h2>
-</div>
+<div id="batsmen"></div>
 
 </div>
-
-</div>
-
-<div class="batsmen">
-
-<h3>Batting</h3>
-
-<table>
-
-<thead>
-<tr>
-<th>Batsman</th>
-<th>R</th>
-<th>B</th>
-<th>4s</th>
-<th>6s</th>
-<th>SR</th>
-</tr>
-</thead>
-
-<tbody id="battingScorecard"></tbody>
-
-</table>
-
-</div>
-
-<div class="bowler">
-
-<h3>Bowler</h3>
-
-<div id="bowlerCard"></div>
-
-</div>
-
-<div class="partnership">
-
-<h3>Partnership</h3>
-<div id="partnershipRuns">0 runs</div>
 
 </div>
 
 <div id="animation"></div>
 
-<script type="module" src="js/uiRenderer.js"></script>
+<script type="module">
+
+import { db, ref, onValue } from "./js/firebase.js"
+
+const video = document.getElementById("camera")
+
+navigator.mediaDevices.getUserMedia({video:true,audio:true})
+.then(stream=>{
+video.srcObject = stream
+})
+
+onValue(ref(db,"match"),snap=>{
+
+const m = snap.val()
+
+document.getElementById("score").innerText =
+m.runs + "/" + m.wickets
+
+document.getElementById("overs").innerText =
+m.overs + "." + m.balls
+
+renderBatters(m)
+
+})
+
+function renderBatters(m){
+
+const box = document.getElementById("batsmen")
+
+box.innerHTML = ""
+
+m.batsmen.forEach((p,i)=>{
+
+let star = ""
+
+if(i==m.striker) star="*"
+
+box.innerHTML +=
+p.name + star + " " + p.runs + "(" + p.balls + ")<br>"
+
+})
+
+}
+
+</script>
 
 </body>
 </html>
