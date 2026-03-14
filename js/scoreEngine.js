@@ -2,7 +2,9 @@ import { db, ref, set } from "./firebase.js"
 
 let history=[]
 
-let match={
+function newMatch(){
+
+return {
 
 teamA:"TEAM A",
 teamB:"TEAM B",
@@ -40,37 +42,20 @@ bowler:{name:"Bowler"}
 
 }
 
+}
+
+let match=newMatch()
+
 function save(){
 set(ref(db,"match"),match)
 }
 
-function checkWin(){
+function endMatch(){
 
-if(match.innings==2 && match.runs>=match.target){
-
-match.winner=match.teamB
-
-}
-
-}
-
-function showCustom(){
-
-match.customText=document.getElementById("customText").value
-
-match.textSize=parseInt(document.getElementById("textSize").value)
+match=newMatch()
 
 save()
 
 }
 
-function clearCustom(){
-
-match.customText=""
-
-save()
-
-}
-
-window.showCustom=showCustom
-window.clearCustom=clearCustom
+window.endMatch=endMatch
