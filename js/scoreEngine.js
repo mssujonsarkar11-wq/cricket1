@@ -14,11 +14,9 @@ balls:0,
 striker:0,
 nonStriker:1,
 
-partnership:0,
+lastBalls:[],
 
 anim:"",
-
-lastBalls:[],
 
 batsmen:[
 {name:"Batter1",runs:0,balls:0},
@@ -30,13 +28,17 @@ bowler:{name:"Bowler"}
 }
 
 function save(){
+
 set(ref(db,"match"),match)
+
 }
 
 function rotate(){
+
 let t=match.striker
 match.striker=match.nonStriker
 match.nonStriker=t
+
 }
 
 function ballAdd(){
@@ -49,6 +51,14 @@ match.overs++
 match.balls=0
 rotate()
 
+let newBowler=prompt("New Bowler Name")
+
+if(newBowler){
+
+match.bowler.name=newBowler
+
+}
+
 }
 
 }
@@ -58,7 +68,6 @@ function run(r){
 match.anim=""
 
 match.runs+=r
-match.partnership+=r
 
 let bat=match.batsmen[match.striker]
 
@@ -93,13 +102,26 @@ save()
 function wicket(){
 
 match.wickets++
-match.partnership=0
 
 match.anim="WICKET"
 
 match.lastBalls.push("W")
 
 ballAdd()
+
+let newBat=prompt("New Batter Name")
+
+if(newBat){
+
+match.batsmen[match.striker]={
+
+name:newBat,
+runs:0,
+balls:0
+
+}
+
+}
 
 save()
 
@@ -108,7 +130,20 @@ save()
 function wide(){
 
 match.runs++
+
 match.lastBalls.push("Wd")
+
+save()
+
+}
+
+function wideRun(){
+
+let r=parseInt(prompt("Runs taken after wide"))
+
+match.runs+=1+r
+
+match.lastBalls.push("Wd+"+r)
 
 save()
 
@@ -117,48 +152,38 @@ save()
 function noball(){
 
 match.runs++
+
 match.lastBalls.push("Nb")
 
 save()
 
 }
 
-function runW(){
+function runOut(){
 
-match.runs++
+let r=parseInt(prompt("Runs completed before run out"))
+
+match.runs+=r
+
 match.wickets++
 
-match.lastBalls.push("1W")
+match.lastBalls.push(r+"RO")
 
 ballAdd()
 
-rotate()
+let newBat=prompt("New Batter Name")
 
-save()
+if(newBat){
 
-}
+match.batsmen[match.striker]={
 
-function setTeams(){
-
-match.teamA=document.getElementById("teamAname").value
-match.teamB=document.getElementById("teamBname").value
-
-save()
+name:newBat,
+runs:0,
+balls:0
 
 }
 
-function setBatters(){
-
-match.batsmen[0].name=document.getElementById("bat1name").value
-match.batsmen[1].name=document.getElementById("bat2name").value
-
-save()
-
 }
-
-function changeBowler(){
-
-match.bowler.name=document.getElementById("bowlerName").value
 
 save()
 
@@ -168,8 +193,6 @@ window.run=run
 window.dot=dot
 window.wicket=wicket
 window.wide=wide
+window.wideRun=wideRun
 window.noball=noball
-window.runW=runW
-window.setTeams=setTeams
-window.setBatters=setBatters
-window.changeBowler=changeBowler
+window.runOut=runOut
