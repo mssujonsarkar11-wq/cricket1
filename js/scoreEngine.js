@@ -1,6 +1,6 @@
 import { db, ref, set } from "./firebase.js"
 
-let match = {
+let match={
 
 teamA:"TEAM A",
 teamB:"TEAM B",
@@ -20,9 +20,6 @@ target:0,
 winner:"",
 
 anim:"",
-
-customText:"",
-textSize:80,
 
 overBalls:[],
 
@@ -67,9 +64,7 @@ match.overBalls=[]
 
 let newBowler=prompt("New Bowler")
 
-if(newBowler){
-match.bowler.name=newBowler
-}
+if(newBowler) match.bowler.name=newBowler
 
 }
 
@@ -146,7 +141,6 @@ match.winner=match.teamB
 }
 
 let ballsPlayed=(match.overs*6)+match.balls
-
 let totalBalls=match.totalOvers*6
 
 if(ballsPlayed>=totalBalls && match.runs<match.target){
@@ -159,39 +153,5 @@ match.winner=match.teamA
 
 }
 
-function startMatch(){
-
-match.totalOvers=parseInt(
-document.getElementById("totalOvers").value
-)
-
-save()
-
-}
-
-function endInnings(){
-
-if(match.innings==1){
-
-match.target=match.runs+1
-
-match.innings=2
-
-match.runs=0
-match.wickets=0
-
-match.overs=0
-match.balls=0
-
-match.overBalls=[]
-
-}
-
-save()
-
-}
-
 window.score=score
 window.wicket=wicket
-window.startMatch=startMatch
-window.endInnings=endInnings
