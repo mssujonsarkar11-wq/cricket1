@@ -13,10 +13,22 @@ let m=snap.val()
 
 if(!m) return
 
-if(m.summary){
+if(m.customText){
 
-showSummary(m)
+document.getElementById("scoreArea").style.display="none"
+
+let box=document.getElementById("customContainer")
+
+box.innerHTML=
+`<div style="font-size:${m.textSize}px">${m.customText}</div>`
+
 return
+
+}else{
+
+document.getElementById("scoreArea").style.display="block"
+
+document.getElementById("customContainer").innerHTML=""
 
 }
 
@@ -29,20 +41,6 @@ m.runs+"-"+m.wickets
 document.getElementById("overs").innerText=
 "("+m.overs+"."+m.balls+")"
 
-renderBatsmen(m)
-
-document.getElementById("bowler").innerText=m.bowler.name
-
-renderBalls(m)
-
-updateRates(m)
-
-showAnimation(m)
-
-})
-
-function renderBatsmen(m){
-
 let left=m.batsmen[m.striker]
 let right=m.batsmen[m.nonStriker]
 
@@ -52,7 +50,17 @@ left.name+" "+left.runs+"("+left.balls+")"
 document.getElementById("bat2").innerText=
 right.name+" "+right.runs+"("+right.balls+")"
 
-}
+document.getElementById("bowler").innerText=m.bowler.name
+
+renderBalls(m)
+
+updateRates(m)
+
+showAnimation(m)
+
+showWinner(m)
+
+})
 
 function renderBalls(m){
 
@@ -61,29 +69,27 @@ let box=document.getElementById("balls")
 box.innerHTML=""
 
 m.overBalls.forEach(b=>{
-
 box.innerHTML+=`<span>${b}</span>`
-
 })
 
 }
 
 function updateRates(m){
 
-let rrBox=document.getElementById("rr")
-let reqBox=document.getElementById("req")
+let rr=document.getElementById("rr")
+let req=document.getElementById("req")
 
-let ballsPlayed=(m.overs*6)+m.balls
+let balls=(m.overs*6)+m.balls
 
 if(m.innings==1){
 
-reqBox.innerText=""
+req.innerText=""
 
-if(ballsPlayed>0){
+if(balls>0){
 
-let rr=(m.runs/(ballsPlayed/6)).toFixed(2)
+let rate=(m.runs/(balls/6)).toFixed(2)
 
-rrBox.innerText="RR "+rr
+rr.innerText="RR "+rate
 
 }
 
@@ -91,20 +97,20 @@ rrBox.innerText="RR "+rr
 
 if(m.innings==2){
 
-rrBox.innerText=""
+rr.innerText=""
 
-let ballsLeft=(m.totalOvers*6)-ballsPlayed
+let ballsLeft=(m.totalOvers*6)-balls
 
-let runsNeeded=m.target-m.runs
+let runsNeed=m.target-m.runs
 
-if(runsNeeded<0) runsNeeded=0
+if(runsNeed<0) runsNeed=0
 
 if(ballsLeft>0){
 
-let rrr=(runsNeeded/(ballsLeft/6)).toFixed(2)
+let rrr=(runsNeed/(ballsLeft/6)).toFixed(2)
 
-reqBox.innerText=
-"Need "+runsNeeded+" from "+ballsLeft+" balls | RRR "+rrr
+req.innerText=
+"Need "+runsNeed+" from "+ballsLeft+" balls | RRR "+rrr
 
 }
 
@@ -128,30 +134,14 @@ box.classList.remove("show")
 
 }
 
-function showSummary(m){
+function showWinner(m){
 
-let box=document.getElementById("scoreArea")
+if(!m.winner) return
 
-box.innerHTML=
+let box=document.getElementById("anim")
 
-`
-<div class="summaryCard">
+box.innerText="WINNER: "+m.winner
 
-<h2>MATCH SUMMARY</h2>
-
-<h3>${m.teamA}</h3>
-
-Score: ${m.target-1}
-
-<br>
-
-<h3>${m.teamB}</h3>
-
-Score: ${m.runs}
-
-<h2>${m.winner} WON</h2>
-
-</div>
-`
+box.classList.add("show")
 
 }
