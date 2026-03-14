@@ -94,24 +94,22 @@ font-size:12px;
 }
 
 #anim{
-
 position:fixed;
 top:40%;
 left:50%;
-
 transform:translate(-50%,-50%);
-
 font-size:120px;
 font-weight:bold;
-
 color:#ffd700;
-
 opacity:0;
-
 transition:0.4s;
-
 }
 
 #anim.show{
 opacity:1;
+}
+
+.target{
+font-size:22px;
+margin-top:10px;
 }
