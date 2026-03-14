@@ -1,32 +1,21 @@
-import { db, ref, set } from "./firebase.js";
+import { db, ref, set } from "./firebase.js"
 
 let match = {
 
-teamA:"Team A",
-teamB:"Team B",
-
 runs:0,
 wickets:0,
-
 overs:0,
 balls:0,
 
 striker:0,
 nonStriker:1,
 
-partnership:0,
-
 batsmen:[
-{name:"Player 1",runs:0,balls:0,fours:0,sixes:0},
-{name:"Player 2",runs:0,balls:0,fours:0,sixes:0}
-],
 
-bowler:{
-name:"Bowler",
-runs:0,
-balls:0,
-wickets:0
-}
+{name:"Batter 1",runs:0,balls:0,fours:0,sixes:0},
+{name:"Batter 2",runs:0,balls:0,fours:0,sixes:0}
+
+]
 
 }
 
@@ -36,39 +25,35 @@ set(ref(db,"match"),match)
 
 }
 
-function rotateStrike(){
+function rotate(){
 
-let temp = match.striker
+let t = match.striker
 match.striker = match.nonStriker
-match.nonStriker = temp
+match.nonStriker = t
 
 }
 
 function run(r){
 
 match.runs += r
-match.partnership += r
 
 let bat = match.batsmen[match.striker]
 
 bat.runs += r
-bat.balls += 1
+bat.balls++
 
 if(r==4) bat.fours++
 if(r==6) bat.sixes++
 
-match.bowler.runs += r
-match.bowler.balls++
-
 match.balls++
 
-if(r % 2 == 1) rotateStrike()
+if(r % 2 == 1) rotate()
 
 if(match.balls==6){
 
 match.overs++
 match.balls=0
-rotateStrike()
+rotate()
 
 }
 
@@ -80,7 +65,6 @@ function dot(){
 
 match.balls++
 match.batsmen[match.striker].balls++
-match.bowler.balls++
 
 save()
 
@@ -89,18 +73,38 @@ save()
 function wicket(){
 
 match.wickets++
-
 match.batsmen[match.striker].balls++
-
-match.bowler.wickets++
-match.bowler.balls++
-
-match.partnership = 0
 
 save()
 
 }
 
-window.run = run
-window.dot = dot
-window.wicket = wicket
+function changeBatter(){
+
+let name = document.getElementById("batterName").value
+
+match.batsmen[match.striker] = {
+
+name:name,
+runs:0,
+balls:0,
+fours:0,
+sixes:0
+
+}
+
+save()
+
+}
+
+function changeBowler(){
+
+alert("Bowler changed")
+
+}
+
+window.run=run
+window.dot=dot
+window.wicket=wicket
+window.changeBatter=changeBatter
+window.changeBowler=changeBowler
