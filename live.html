@@ -8,9 +8,13 @@
 
 <link rel="stylesheet" href="css/style.css">
 
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;700&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
+
+<div id="customContainer"></div>
 
 <div class="video-box" id="scoreArea">
 
@@ -20,46 +24,34 @@
 
 <div class="teams">
 
-<span id="teamA">TEAM A</span> <span class="vs">v</span> <span id="teamB">TEAM B</span>
+<span id="teamA">TEAM A</span> <span>vs</span> <span id="teamB">TEAM B</span>
 
-<span class="score" id="score">0-0</span> <span class="overs" id="overs">(0.0)</span>
+<span id="score">0-0</span> <span id="overs">(0.0)</span>
 
 </div>
 
 <div class="batters">
 
-<div class="batter striker">
-<span class="arrow">▶</span>
-<span id="bat1">Batter1 0(0)</span>
-</div>
-
-<div class="batter">
-<span id="bat2">Batter2 0(0)</span>
-</div>
+<span id="bat1"></span> <span id="bat2"></span>
 
 </div>
 
 <div class="bowler">
 
-<div id="bowler">Bowler</div>
+<span id="bowler"></span>
 
-<div class="overballs" id="balls"></div>
-
-</div>
+<div id="balls"></div>
 
 </div>
 
 </div>
 
-<div class="stats">
-
-<span id="rr"></span>
-
-<span id="req"></span>
-
 </div>
 
-<div id="summary" class="summary"></div>
+<div id="rr"></div>
+<div id="req"></div>
+
+<div id="anim"></div>
 
 <script type="module" src="js/ui.js"></script>
 
