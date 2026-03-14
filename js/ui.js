@@ -36,17 +36,14 @@ showAnimation(m)
 
 function renderBatsmen(m){
 
-let bat1=m.batsmen[0]
-let bat2=m.batsmen[1]
-
-let star1 = m.striker==0 ? "⭐ " : ""
-let star2 = m.striker==1 ? "⭐ " : ""
+let leftBatter = m.batsmen[m.striker]
+let rightBatter = m.batsmen[m.nonStriker]
 
 document.getElementById("bat1").innerText =
-star1 + bat1.name+" "+bat1.runs+"("+bat1.balls+")"
+leftBatter.name+" "+leftBatter.runs+"("+leftBatter.balls+")"
 
 document.getElementById("bat2").innerText =
-star2 + bat2.name+" "+bat2.runs+"("+bat2.balls+")"
+rightBatter.name+" "+rightBatter.runs+"("+rightBatter.balls+")"
 
 }
 
